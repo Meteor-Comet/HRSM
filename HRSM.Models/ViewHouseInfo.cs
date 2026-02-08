@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace HRSM.Models;
+
+public partial class ViewHouseInfo
+{
+    public int HouseId { get; set; }
+
+    public string HouseName { get; set; } = null!;
+
+    public string? Building { get; set; }
+
+    public string? HouseAddress { get; set; }
+
+    public string RentSale { get; set; } = null!;
+
+    public string? HouseDirection { get; set; }
+
+    public string? HouseLayout { get; set; }
+
+    public int? OwnerId { get; set; }
+
+    public string OwnerName { get; set; } = null!;
+
+    public string HouseState { get; set; } = null!;
+
+    public bool IsPublish { get; set; }
+
+    public int IsDeleted { get; set; }
+
+    public decimal HouseArea { get; set; }
+
+    public int HouseFloor { get; set; }
+
+    public decimal? HousePrice { get; set; }
+
+    public string? PriceUnit { get; set; }
+
+    public string? HousePic { get; set; }
+
+    public string? Remark { get; set; }
+
+    public string? OwnerPhone { get; set; }
+}

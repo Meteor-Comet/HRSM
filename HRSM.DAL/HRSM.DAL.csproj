@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HRSM.Common\HRSM.Common.csproj" />
-    <ProjectReference Include="..\HRSM.DbUtility\HRSM.DbUtility.csproj" />
     <ProjectReference Include="..\HRSM.Models\HRSM.Models.csproj" />
   </ItemGroup>
 
