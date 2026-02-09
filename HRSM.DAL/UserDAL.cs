@@ -1,20 +1,18 @@
 ﻿using HRSM.Models;
-using System.Linq;
+using Microsoft.EntityFrameworkCore; // 必须引用这个！否则没有 FirstOrDefaultAsync
+using System.Threading.Tasks;       // 必须引用这个！为了使用 Task
 
 namespace HRSM.DAL
 {
     public class UserDAL
     {
-        /// <summary>
-        /// 根据用户名查找用户信息
-        /// </summary>
-        /// <param name="userName">登录账号</param>
-        /// <returns>找到的用户实体，如果没有则返回 null</returns>
-        public UserInfo? GetUserInfo(string userName)
+        // 注意：返回值变成了 Task<UserInfo?>，方法名加了 Async 后缀
+        public async Task<UserInfo?> GetUserInfoAsync(string userName)
         {
             using (HrsmContext db = new HrsmContext())
             {
-                return db.UserInfos.FirstOrDefault(u => u.UserName == userName && u.IsDeleted == 0);
+                // 使用 FirstOrDefaultAsync 进行异步查询
+                return await db.UserInfos.FirstOrDefaultAsync(u => u.UserName == userName && u.IsDeleted == 0);
             }
         }
     }
