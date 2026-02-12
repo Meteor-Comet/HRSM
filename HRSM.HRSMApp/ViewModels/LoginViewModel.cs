@@ -1,5 +1,6 @@
 ﻿using HRSM.BLL;
 using HRSM.HRSMApp.Utils;
+using HRSM.Models;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,10 +10,14 @@ namespace HRSM.HRSMApp.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
+        // 引用业务逻辑层
         private UserBLL userBLL = new UserBLL();
 
-        // 修改 Action，不需要参数了，成功就是成功
+        // 定义一个动作，当登录成功时执行（用于关闭窗口）
         public Action? CloseAction { get; set; }
+
+        // 对外暴露登录成功的用户对象，供 UI 层获取并传给主窗口
+        public UserInfo? LoginUser { get; private set; }
 
         public LoginViewModel()
         {
@@ -28,7 +33,7 @@ namespace HRSM.HRSMApp.ViewModels
             set { _userName = value; OnPropertyChanged(); }
         }
 
-        // 新增：忙碌状态（用于控制按钮是否可用，防止重复点击）
+        // 忙碌状态（用于控制按钮是否可用，防止重复点击）
         private bool _isBusy = false;
         public bool IsBusy
         {
@@ -37,16 +42,15 @@ namespace HRSM.HRSMApp.ViewModels
             {
                 _isBusy = value;
                 OnPropertyChanged();
-                // 忙碌状态改变时，通知 LoginCommand 重新检查是否可点击
-                // (这一步需要 RelayCommand 支持，如果没有 CommandManager 逻辑，按钮不会自动变灰，但也不影响功能)
             }
         }
 
         #endregion
 
+        #region 命令
+
         public RelayCommand LoginCommand { get; set; }
 
-        // 注意：这里用了 async void，这是事件处理程序的标准写法
         private async void DoLogin(object parameter)
         {
             if (IsBusy) return; // 如果正在登录中，直接返回
@@ -67,10 +71,11 @@ namespace HRSM.HRSMApp.ViewModels
 
             try
             {
-                // 1. 开启忙碌状态 (界面按钮应该变灰或不可点)
+                // 1. 开启忙碌状态 (按钮变灰)
                 IsBusy = true;
 
-                // 2. 异步调用 BLL (await 不会卡死界面)
+                // 2. 异步调用 BLL
+                // 返回值元组：(bool IsSuccess, string Msg, UserInfo? User)
                 var result = await userBLL.LoginAsync(UserName, password);
 
                 // 3. 关闭忙碌状态
@@ -79,7 +84,10 @@ namespace HRSM.HRSMApp.ViewModels
                 // 4. 处理结果
                 if (result.IsSuccess)
                 {
-                    // 优化：弹出成功提示
+                    // 核心步骤：把登录成功的用户保存到属性中
+                    LoginUser = result.User;
+
+                    // 弹出成功提示
                     MessageBox.Show(result.Msg, "提示", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     // 通知关闭窗口
@@ -96,5 +104,7 @@ namespace HRSM.HRSMApp.ViewModels
                 MessageBox.Show($"发生未知错误：{ex.Message}", "错误");
             }
         }
+
+        #endregion
     }
 }

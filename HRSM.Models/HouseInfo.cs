@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HRSM.Models;
 
@@ -44,4 +45,7 @@ public partial class HouseInfo
     public DateTime CreateTime { get; set; }
 
     public string? PublishUser { get; set; }
+
+    [NotMapped]
+    public string OwnerName { get; set; }
 }

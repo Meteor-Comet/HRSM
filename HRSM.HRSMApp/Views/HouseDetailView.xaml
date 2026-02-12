@@ -1,0 +1,48 @@
+﻿<Window x:Class="HRSM.HRSMApp.Views.HouseDetailView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="房屋详细信息" Height="500" Width="400" 
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#F5F7FA">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" CornerRadius="8" BorderBrush="#DDD" BorderThickness="1" Background="White">
+            <Image Source="{Binding House.HousePic}" Stretch="UniformToFill" Margin="2"/>
+        </Border>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,15,0,0">
+            <StackPanel Grid.Row="1" Margin="0,15,0,0">
+                <TextBlock Text="{Binding House.HouseName}" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10"/>
+                <Separator Background="#EEE" Margin="0,0,0,10"/>
+
+                <WrapPanel Margin="0,5">
+                    <TextBlock Text="业主姓名：" Foreground="#666" Width="80"/>
+                    <TextBlock Text="{Binding House.OwnerName}" FontWeight="SemiBold"/>
+                </WrapPanel>
+                <WrapPanel Margin="0,5">
+                    <TextBlock Text="房屋面积：" Foreground="#666" Width="80"/>
+                    <TextBlock Text="{Binding House.HouseArea, StringFormat={}{0} ㎡}"/>
+                </WrapPanel>
+                <WrapPanel Margin="0,5">
+                    <TextBlock Text="房屋户型：" Foreground="#666" Width="80"/>
+                    <TextBlock Text="{Binding House.HouseLayout}"/>
+                </WrapPanel>
+                <WrapPanel Margin="0,5">
+                    <TextBlock Text="房屋楼层：" Foreground="#666" Width="80"/>
+                    <TextBlock Text="{Binding House.HouseFloor, StringFormat={}第 {0} 层}"/>
+                </WrapPanel>
+                <WrapPanel Margin="0,5">
+                    <TextBlock Text="备注信息：" Foreground="#666" Width="80"/>
+                    <TextBlock Text="{Binding House.Remark}" TextWrapping="Wrap" Width="260"/>
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <Button Grid.Row="2" Content="返回列表" Width="100" Height="30" 
+                Background="#007ACC" Foreground="White" BorderThickness="0"
+                Click="Close_Click" Cursor="Hand"/>
+        
+    </Grid>
+</Window>

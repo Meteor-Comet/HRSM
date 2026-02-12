@@ -1,4 +1,5 @@
 ﻿using HRSM.HRSMApp.ViewModels;
+using HRSM.Models;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,9 +16,12 @@ namespace HRSM.HRSMApp
             // 修改这里的逻辑：因为只有成功才会触发这个 Action
             vm.CloseAction = () =>
             {
-                MainWindow main = new MainWindow();
-                main.Show();
-                this.Close();
+                // ✅ 必须是这样：设置 DialogResult = true
+                vm.CloseAction = () =>
+                {
+                    this.DialogResult = true; // 告诉调用者“我成功了”
+                    this.Close();             // 关闭自己
+                };
             };
 
             this.DataContext = vm;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HRSM.Models;
 
@@ -18,4 +19,7 @@ public partial class MenuInfo
     public int IsDeleted { get; set; }
 
     public DateTime CreateTime { get; set; }
+
+    [NotMapped]
+    public List<MenuInfo> SubMenus { get; set; } = new List<MenuInfo>();
 }
